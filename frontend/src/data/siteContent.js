@@ -33,7 +33,7 @@ export const mainMenu = [
   { title: 'Shop', url: '/collections/all', children: [
     { title: 'For Him', url: '/collections/men' },
     { title: 'For Her', url: '/collections/women' },
-    { title: 'Unisex', url: '/collections/gift-sets' },
+    { title: 'Unisex', url: '/collections/unisex' },
   ] },
   { title: 'About', url: '/pages/about' },
   { title: 'Contact', url: '/pages/contact' },
@@ -98,7 +98,7 @@ export const tiles = {
   items: [
     { title: 'For Him', color: '#1d3f8a', link: '/collections/men' },
     { title: 'For Her', color: '#8e2a58', link: '/collections/women' },
-    { title: 'Unisex', color: '#9a6a1c', link: '/collections/gift-sets' },
+    { title: 'Unisex', color: '#9a6a1c', link: '/collections/unisex' },
   ],
 };
 

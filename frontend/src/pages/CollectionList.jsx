@@ -25,7 +25,7 @@ export default function CollectionList() {
       <div className="am-head" data-reveal><div><p className="am-eb">Explore</p><h1 className="am-h">All collections</h1></div></div>
       <div className="am-tiles">
         {(data?.collections || []).filter(c => c.handle !== 'all').map((c, i) => (
-          <Link key={c.handle} className="am-tile" to={`/collections/${c.handle}`} data-reveal style={{ '--i': i, '--tb': '#1d3f8a' }}>
+          <Link key={c.handle} className="am-tile" to={`/collections/${c.handle === 'gift-sets' ? 'unisex' : c.handle}`} data-reveal style={{ '--i': i, '--tb': '#1d3f8a' }}>
             {c.image ? <img src={c.image} alt={c.title} loading="lazy" /> : <div className="am-demo" style={{ '--bot': `url('${collectionBottle(c.handle)}')` }} />}
             <div className="am-tile__meta">
               <span className="am-tile__eyebrow">Collection</span>

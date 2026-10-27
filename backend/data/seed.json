@@ -1,0 +1,245 @@
+{
+ "products": [
+  {
+   "handle": "drift",
+   "title": "Drift",
+   "description_html": "<p>Fresh, aquatic and woody. Grapefruit, lemon and mint open onto a marine heart of lavender and ginger, settling into guaiac wood, cedar, musk and amber. 50 ml Eau de Parfum.</p>",
+   "vendor": "Améza",
+   "product_type": "Eau de Parfum",
+   "tags": [
+    "men",
+    "gift"
+   ],
+   "images": [],
+   "published": true,
+   "sort_order": 1,
+   "best_selling": 90,
+   "variants": [
+    {
+     "title": "Default Title",
+     "option_name": "Title",
+     "price": 2490,
+     "compare_at_price": 2990,
+     "sku": "DRIFT",
+     "inventory_quantity": 8,
+     "position": 1
+    }
+   ]
+  },
+  {
+   "handle": "obsidian",
+   "title": "Obsidian",
+   "description_html": "<p>Dark, warm, unhurried. Spiced ginger opens onto smoky guaiac wood and a deep, resinous oud. 50 ml Eau de Parfum.</p>",
+   "vendor": "Améza",
+   "product_type": "Eau de Parfum",
+   "tags": [
+    "men",
+    "gift"
+   ],
+   "images": [],
+   "published": true,
+   "sort_order": 2,
+   "best_selling": 70,
+   "variants": [
+    {
+     "title": "Default Title",
+     "option_name": "Title",
+     "price": 3290,
+     "compare_at_price": null,
+     "sku": "OBSIDIAN",
+     "inventory_quantity": 24,
+     "position": 1
+    }
+   ]
+  },
+  {
+   "handle": "velvet-rose",
+   "title": "Velvet Rose",
+   "description_html": "<p>A rose, softened with vanilla. Damask rose and jasmine bloom over vanilla, white musk and amber. 50 ml Eau de Parfum.</p>",
+   "vendor": "Améza",
+   "product_type": "Eau de Parfum",
+   "tags": [
+    "women",
+    "gift"
+   ],
+   "images": [],
+   "published": true,
+   "sort_order": 3,
+   "best_selling": 80,
+   "variants": [
+    {
+     "title": "Default Title",
+     "option_name": "Title",
+     "price": 3190,
+     "compare_at_price": 3590,
+     "sku": "VELVET-ROSE",
+     "inventory_quantity": 6,
+     "position": 1
+    }
+   ]
+  },
+  {
+   "handle": "moonpetal",
+   "title": "Moonpetal",
+   "description_html": "<p>White flowers by moonlight. Luminous jasmine, brightened with lemon and cool mint, calmed by lavender. 50 ml Eau de Parfum.</p>",
+   "vendor": "Améza",
+   "product_type": "Eau de Parfum",
+   "tags": [
+    "women"
+   ],
+   "images": [],
+   "published": true,
+   "sort_order": 4,
+   "best_selling": 60,
+   "variants": [
+    {
+     "title": "Default Title",
+     "option_name": "Title",
+     "price": 2990,
+     "compare_at_price": null,
+     "sku": "MOONPETAL",
+     "inventory_quantity": 30,
+     "position": 1
+    }
+   ]
+  },
+  {
+   "handle": "amber-dusk",
+   "title": "Amber Dusk",
+   "description_html": "<p>The last warm hour of the day. Golden amber and oud wrapped in vanilla, with a spark of ginger and a whisper of rose. 50 ml Eau de Parfum.</p>",
+   "vendor": "Améza",
+   "product_type": "Eau de Parfum",
+   "tags": [
+    "men",
+    "women"
+   ],
+   "images": [],
+   "published": true,
+   "sort_order": 5,
+   "best_selling": 65,
+   "variants": [
+    {
+     "title": "Default Title",
+     "option_name": "Title",
+     "price": 3390,
+     "compare_at_price": 3890,
+     "sku": "AMBER-DUSK",
+     "inventory_quantity": 15,
+     "position": 1
+    }
+   ]
+  },
+  {
+   "handle": "citrus-mist",
+   "title": "Citrus Mist",
+   "description_html": "<p>Cold citrus, clear skies. Sparkling grapefruit and lemon, cooled with mint and a clean marine accord. 50 ml Eau de Parfum.</p>",
+   "vendor": "Améza",
+   "product_type": "Eau de Parfum",
+   "tags": [
+    "men",
+    "women"
+   ],
+   "images": [],
+   "published": true,
+   "sort_order": 6,
+   "best_selling": 55,
+   "variants": [
+    {
+     "title": "Default Title",
+     "option_name": "Title",
+     "price": 2690,
+     "compare_at_price": null,
+     "sku": "CITRUS-MIST",
+     "inventory_quantity": 40,
+     "position": 1
+    }
+   ]
+  }
+ ],
+ "collections": [
+  {
+   "handle": "all",
+   "title": "All Products",
+   "description": "",
+   "image": null,
+   "sort_order": 0,
+   "auto": "all"
+  },
+  {
+   "handle": "men",
+   "title": "For Him",
+   "description": "",
+   "image": null,
+   "sort_order": 1,
+   "products": [
+    "drift",
+    "obsidian",
+    "amber-dusk",
+    "citrus-mist"
+   ]
+  },
+  {
+   "handle": "women",
+   "title": "For Her",
+   "description": "",
+   "image": null,
+   "sort_order": 2,
+   "products": [
+    "velvet-rose",
+    "moonpetal",
+    "amber-dusk",
+    "citrus-mist"
+   ]
+  },
+  {
+   "handle": "gift-sets",
+   "title": "Unisex",
+   "description": "",
+   "image": null,
+   "sort_order": 3,
+   "products": [
+    "drift",
+    "velvet-rose",
+    "obsidian"
+   ]
+  }
+ ],
+ "pages": [
+  {
+   "handle": "shipping-policy",
+   "title": "Shipping policy",
+   "content_html": "<p>We deliver across Pakistan. Major cities: 2–3 working days. Rest of Pakistan: 3–5 working days.</p><p>Delivery is free on orders above Rs 5,000. Cash on delivery is available on every order.</p><p><em>Replace this text with your final shipping policy.</em></p>"
+  },
+  {
+   "handle": "refund-policy",
+   "title": "Refund policy",
+   "content_html": "<p>Not happy? Message us on WhatsApp within 7 days of delivery for an easy return or exchange on unopened items.</p><p><em>Replace this text with your final refund policy.</em></p>"
+  },
+  {
+   "handle": "privacy-policy",
+   "title": "Privacy policy",
+   "content_html": "<p>We only collect the details needed to deliver your order and to reply to your messages. We never sell your data.</p><p><em>Replace this text with your final privacy policy.</em></p>"
+  },
+  {
+   "handle": "terms-of-service",
+   "title": "Terms of service",
+   "content_html": "<p>By placing an order on this site you agree to our shipping and refund policies.</p><p><em>Replace this text with your final terms of service.</em></p>"
+  }
+ ],
+ "blogs": [
+  {
+   "handle": "news",
+   "title": "News",
+   "articles": []
+  }
+ ],
+ "discount_codes": [
+  {
+   "code": "AMEZA15",
+   "percent": 15,
+   "min_subtotal": 0,
+   "active": true,
+   "expires_at": null
+  }
+ ]
+}
