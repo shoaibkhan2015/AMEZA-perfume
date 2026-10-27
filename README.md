@@ -1,4 +1,4 @@
-# Améza Parfums — Vercel-ready
+# AMEZA-perfume — Améza Parfums Vercel-ready
 
 React (Vite) frontend + Express API (Supabase), deployed together on Vercel.
 The API runs as a serverless function (`api/index.js` → `backend/src/server.js`), the site is served from `frontend/dist`.
