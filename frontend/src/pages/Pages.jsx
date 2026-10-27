@@ -1,0 +1,31 @@
+import { useParams } from 'react-router-dom';
+import { AboutHero, Contact, Faq, Newsletter, Reviews, Values, Video } from '../components/sections.jsx';
+import NotFound from './NotFound.jsx';
+import { useApi, useTitle } from '../lib/hooks.js';
+import { SHOP_NAME } from '../lib/format.js';
+
+// templates/page.about.json
+const About = () => { useTitle('About'); return <><AboutHero /><Values /><Video /><Reviews /><Newsletter /></>; };
+// templates/page.contact.json
+const ContactPage = () => { useTitle('Contact'); return <><Contact /><Faq /></>; };
+
+// templates/page.json + sections/am-page.liquid — any other page stored in the database
+function Generic({ handle }) {
+  const { data, error } = useApi(`/pages/${handle}`, [handle]);
+  useTitle(data?.page.title);
+  if (error?.status === 404) return <NotFound />;
+  if (!data) return <section className="am-sec" style={{ minHeight: '60vh' }} />;
+  return (
+    <section className="am-sec"><div className="am-wrap art">
+      <p className="am-eb">{SHOP_NAME}</p><h1 className="am-h">{data.page.title}</h1>
+      <div className="art__c" style={{ marginTop: 22 }} dangerouslySetInnerHTML={{ __html: data.page.contentHtml }} />
+    </div></section>
+  );
+}
+
+export default function PageRoute() {
+  const { handle } = useParams();
+  if (handle === 'about') return <About />;
+  if (handle === 'contact') return <ContactPage />;
+  return <Generic handle={handle} />;
+}

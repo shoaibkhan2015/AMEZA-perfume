@@ -1,0 +1,87 @@
+/* "What's your mood?" section — new; uses the existing Améza theme tokens */
+.mp__grid{display:grid;grid-template-columns:minmax(250px,320px) 1fr;gap:clamp(16px,2.4vw,28px);align-items:stretch}
+.mp__chips{display:grid;gap:10px;align-content:start}
+.mp__chip{display:flex;gap:14px;align-items:center;text-align:left;padding:14px 16px;border-radius:18px;border:1.5px solid rgba(184,134,43,.28);background:#fffaf0;color:#17140f;cursor:pointer;font:inherit;transition:transform .35s,border-color .35s,background .35s,box-shadow .35s}
+.mp__chip em{font-style:normal;font-size:26px;transition:transform .4s}
+.mp__chip b{display:block;font:600 20px 'Cormorant Garamond',Georgia,serif}.mp__chip small{display:block;font-size:11.5px;opacity:.65;margin-top:2px}
+.mp__chip:hover{transform:translateX(6px);border-color:#d9a93f}.mp__chip:hover em{transform:scale(1.25) rotate(-8deg)}
+.mp__chip.on{background:linear-gradient(135deg,#0b1530,#1a2a5c);color:#f6dc8e;border-color:#d9a93f;box-shadow:0 14px 30px -14px rgba(11,21,48,.7);transform:translateX(8px)}
+.mp__chip.on small{opacity:.8}
+
+.mp-stage{position:relative;overflow:hidden;border-radius:28px;min-height:clamp(430px,46vw,580px);display:grid;grid-template-columns:1fr 1fr;align-items:center;background:#05070f;color:#fff;isolation:isolate}
+.mp-bg{position:absolute;inset:0;z-index:-3;background:radial-gradient(circle at 30% 45%,var(--c1),var(--c2) 78%);animation:mp-fadein .8s both}
+.mp-fx{position:absolute;inset:0;z-index:-1;pointer-events:none;overflow:hidden}
+.mp-view{position:relative;height:100%;min-height:clamp(340px,40vw,540px);display:grid;place-items:center}
+.mp-halo{position:absolute;width:min(78%,380px);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 68%);opacity:.55;filter:blur(8px);animation:mp-pulse 3.6s ease-in-out infinite}
+.mp-scene{position:relative;height:88%;display:grid;place-items:center}
+.mp-bottle{height:100%;max-height:520px;width:auto;object-fit:contain;filter:drop-shadow(0 32px 28px rgba(0,0,0,.6));animation-fill-mode:both}
+.mp-sheen{position:absolute;inset:-5% -30%;background:linear-gradient(100deg,transparent 40%,rgba(255,255,255,.55) 50%,transparent 60%);mix-blend-mode:overlay;transform:translateX(-120%);pointer-events:none;opacity:0}
+
+.mp-info{padding:clamp(22px,3vw,44px) clamp(22px,3vw,44px) clamp(22px,3vw,44px) 0;animation:mp-slide .8s .15s both}
+.mp-eb{font:700 11px system-ui;letter-spacing:.22em;text-transform:uppercase;color:var(--glow);margin:0 0 10px}
+.mp-info h3{font:600 clamp(34px,4.2vw,56px)/1 'Cormorant Garamond',Georgia,serif;margin:0 0 12px}
+.mp-line{font-size:clamp(14px,1.4vw,17px);line-height:1.6;opacity:.85;max-width:34ch;margin:0 0 16px}
+.mp-price{font:600 24px 'Cormorant Garamond',Georgia,serif;color:#f6dc8e;margin-bottom:18px}
+.mp-cta{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+.mp-ghost{display:inline-flex;align-items:center;min-height:48px;padding:0 24px;border-radius:99px;border:1.5px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;font:700 12px system-ui;letter-spacing:.12em;text-transform:uppercase;transition:background .3s,color .3s,border-color .3s}
+.mp-ghost:hover{background:#fff;color:#17140f;border-color:#fff}
+
+/* ---------- particles ---------- */
+.mp-p{position:absolute;left:var(--x);font-size:var(--s);line-height:1;opacity:0;text-shadow:0 0 10px currentColor}
+.mp-p.up{bottom:-8%;animation:mp-up var(--d) var(--dl) linear infinite}
+.mp-p.down{top:-8%;animation:mp-down var(--d) var(--dl) linear infinite}
+.mp-p.twinkle{top:var(--y);animation:mp-twinkle calc(var(--d)/2.4) var(--dl) ease-in-out infinite}
+.mp-p.bubble{width:var(--s);height:var(--s);border-radius:50%;border:1.5px solid rgba(255,255,255,.7);background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.55),rgba(255,255,255,.05) 60%);text-shadow:none;font-size:0}
+
+/* ---------- mood-specific bottle motion ---------- */
+/* Formal — slow, composed rise + one light sweep */
+.mp-formal .mp-scene{animation:mp-rise 1.1s cubic-bezier(.2,.7,.2,1) both}
+.mp-formal .mp-bottle{animation:mp-float 7s 1.1s ease-in-out infinite}
+.mp-formal .mp-sheen{animation:mp-sweep 2.2s .9s ease-in-out both}
+/* Party — pop-in then dance */
+.mp-party .mp-scene{animation:mp-pop .9s cubic-bezier(.3,1.4,.5,1) both}
+.mp-party .mp-bottle{transform-origin:50% 90%;animation:mp-dance 1.1s .9s ease-in-out infinite}
+.mp-party .mp-halo{animation:mp-pulse 1.1s ease-in-out infinite,mp-hue 3s linear infinite;opacity:.7}
+/* Date night — fade-in, heartbeat */
+.mp-romantic .mp-scene{animation:mp-fadein 1.2s both}
+.mp-romantic .mp-bottle{animation:mp-beat 2.4s 1s ease-in-out infinite}
+/* Wedding & events — rise, golden ring turning behind */
+.mp-event .mp-scene{animation:mp-rise 1.3s cubic-bezier(.2,.7,.2,1) both}
+.mp-event .mp-bottle{animation:mp-float 6s 1.3s ease-in-out infinite}
+.mp-event .mp-halo{background:conic-gradient(from 0deg,transparent,var(--glow),transparent 35%,var(--glow),transparent 70%);-webkit-mask:radial-gradient(circle,transparent 52%,#000 54%,#000 60%,transparent 62%);mask:radial-gradient(circle,transparent 52%,#000 54%,#000 60%,transparent 62%);filter:none;opacity:.9;width:min(92%,460px);animation:mp-spin 9s linear infinite}
+.mp-event .mp-sheen{animation:mp-sweep 2.6s 1.1s ease-in-out both}
+/* Casual — drops in, bobs happily */
+.mp-casual .mp-scene{animation:mp-drop .95s both}
+.mp-casual .mp-bottle{animation:mp-bob 3.2s .95s ease-in-out infinite}
+/* Calm — dreamy fade, slow drift, moon glow */
+.mp-calm .mp-scene{animation:mp-fadein 1.8s both}
+.mp-calm .mp-bottle{animation:mp-float 9s 1.8s ease-in-out infinite}
+.mp-calm .mp-halo{opacity:.4;filter:blur(2px);animation:mp-pulse 6s ease-in-out infinite}
+
+@keyframes mp-fadein{from{opacity:0;transform:scale(1.05)}to{opacity:1;transform:none}}
+@keyframes mp-rise{from{opacity:0;transform:translateY(70px) scale(.94)}to{opacity:1;transform:none}}
+@keyframes mp-pop{0%{opacity:0;transform:scale(.3) rotate(-18deg)}55%{opacity:1;transform:scale(1.12) rotate(7deg)}78%{transform:scale(.96) rotate(-3deg)}100%{opacity:1;transform:none}}
+@keyframes mp-drop{0%{opacity:0;transform:translateY(-110%)}58%{opacity:1;transform:translateY(7%)}80%{transform:translateY(-3%)}100%{opacity:1;transform:none}}
+@keyframes mp-slide{from{opacity:0;transform:translateX(26px)}to{opacity:1;transform:none}}
+@keyframes mp-float{0%,100%{transform:translateY(0)}50%{transform:translateY(-14px)}}
+@keyframes mp-bob{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-12px) rotate(2deg)}}
+@keyframes mp-dance{0%,100%{transform:rotate(-6deg) translateY(0) scale(1)}25%{transform:rotate(0) translateY(-18px) scale(1.04)}50%{transform:rotate(6deg) translateY(0) scale(1)}75%{transform:rotate(0) translateY(-18px) scale(1.04)}}
+@keyframes mp-beat{0%,100%{transform:scale(1)}14%{transform:scale(1.06)}28%{transform:scale(1)}42%{transform:scale(1.05)}70%{transform:scale(1)}}
+@keyframes mp-pulse{0%,100%{transform:scale(.94);opacity:.4}50%{transform:scale(1.08);opacity:.7}}
+@keyframes mp-spin{to{transform:rotate(360deg)}}
+@keyframes mp-hue{to{filter:blur(8px) hue-rotate(360deg)}}
+@keyframes mp-sweep{0%{opacity:0;transform:translateX(-120%)}20%{opacity:1}100%{opacity:0;transform:translateX(120%)}}
+@keyframes mp-up{0%{opacity:0;transform:translate(0,0) rotate(0)}12%{opacity:.9}100%{opacity:0;transform:translate(var(--dx),-115vh) rotate(40deg)}}
+@keyframes mp-down{0%{opacity:0;transform:translate(0,0) rotate(0)}10%{opacity:1}100%{opacity:.9;transform:translate(var(--dx),620px) rotate(420deg)}}
+@keyframes mp-twinkle{0%,100%{opacity:.1;transform:scale(.6)}50%{opacity:1;transform:scale(1.25)}}
+
+@media(max-width:900px){
+  .mp__grid{grid-template-columns:1fr}
+  .mp__chips{display:flex;overflow-x:auto;gap:10px;padding-bottom:6px;scroll-snap-type:x proximity}
+  .mp__chip{flex:0 0 auto;scroll-snap-align:start;padding:12px 16px}.mp__chip small{display:none}
+  .mp__chip:hover,.mp__chip.on{transform:none}
+  .mp-stage{grid-template-columns:1fr;min-height:0}
+  .mp-view{height:340px;min-height:0;margin:18px 0 22px}.mp-scene{height:100%}.mp-bottle{height:100%;max-height:none}
+  .mp-info{padding:0 22px 28px;text-align:center}.mp-line{margin-inline:auto}.mp-cta{justify-content:center}
+}
+@media(prefers-reduced-motion:reduce){.mp-stage *,.mp-stage *::before{animation-duration:.01ms!important;animation-iteration-count:1!important}}

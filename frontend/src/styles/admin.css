@@ -1,0 +1,39 @@
+.admin-page,.admin-login{min-height:100vh;background:#f7f3e9;color:#17140f;font-family:system-ui,-apple-system,sans-serif;padding:clamp(20px,4vw,52px);box-sizing:border-box}
+.admin-page *,.admin-login *{box-sizing:border-box}
+.admin-header{max-width:1400px;margin:0 auto 30px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.admin-header h1,.admin-login h1{font:600 clamp(34px,5vw,52px)/1.05 'Cormorant Garamond',Georgia,serif;margin:0}
+.admin-eyebrow{color:#9b7124;font-size:11px;font-weight:700;letter-spacing:.24em;margin:0 0 8px;text-transform:uppercase}
+.admin-header__actions{display:flex;align-items:center;gap:18px}.admin-header__actions a,.admin-login__card>a{color:#30291c;font-size:13px}
+.admin-button{border:0;border-radius:99px;background:linear-gradient(120deg,#f3d98b,#c8952f);color:#1a1205;padding:13px 22px;font:700 12px system-ui;letter-spacing:.1em;text-transform:uppercase;cursor:pointer}
+.admin-button:disabled{opacity:.55;cursor:wait}.admin-button--quiet{background:transparent;border:1px solid rgba(23,20,15,.25)}
+.admin-tabs{max-width:1400px;margin:0 auto 22px;display:flex;gap:8px;border-bottom:1px solid rgba(184,134,43,.3)}
+.admin-tabs button{border:0;border-bottom:2px solid transparent;background:none;color:inherit;padding:14px 18px;font:600 13px system-ui;cursor:pointer}
+.admin-tabs button.is-active{border-color:#b8862b;color:#805a15}.admin-tabs span{margin-left:6px;opacity:.6}
+.admin-overview{max-width:1400px;margin:0 auto 22px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.admin-metric{display:grid;gap:8px}.admin-metric .admin-eyebrow{margin:0}.admin-metric strong{font:600 clamp(20px,2.5vw,30px)/1.15 'Cormorant Garamond',Georgia,serif;overflow-wrap:anywhere}.admin-metric>span{font-size:12px;color:#756c5b}
+.admin-sales-chart{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) minmax(150px,.32fr);align-items:center;gap:24px}.admin-sales-chart .admin-eyebrow{margin:0 0 12px}.admin-sales-chart__bars{height:110px;display:grid;grid-template-columns:repeat(7,minmax(20px,1fr));gap:12px;align-items:end}.admin-sales-chart__day{height:100%;display:grid;grid-template-rows:1fr auto;gap:6px;text-align:center}.admin-sales-chart__track{height:100%;display:flex;align-items:end;justify-content:center;background:#f8f5ed;border-radius:6px;overflow:hidden}.admin-sales-chart__track span{width:65%;min-height:0;background:linear-gradient(0deg,#b8862b,#f3d98b);border-radius:5px 5px 0 0}.admin-sales-chart__day small{font-size:10px;color:#756c5b}.admin-fulfillment-summary{display:grid;gap:8px;border-left:1px solid rgba(184,134,43,.2);padding-left:20px;font-size:13px}.admin-fulfillment-summary .admin-eyebrow{margin:0}.admin-fulfillment-summary span{font-size:12px;color:#756c5b}
+.admin-products{max-width:1400px;margin:auto;display:grid;grid-template-columns:minmax(290px,.78fr) minmax(0,1.22fr);gap:22px;align-items:start}
+.admin-panel,.admin-login__card{background:#fff;border:1px solid rgba(184,134,43,.25);border-radius:18px;padding:clamp(18px,3vw,28px);box-shadow:0 10px 36px rgba(31,25,12,.04)}
+.admin-panel__heading{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:20px}
+.admin-panel__heading h2{font:600 28px/1.1 'Cormorant Garamond',Georgia,serif;margin:0}
+.admin-count,.admin-muted{font-size:12px;color:#756c5b}.admin-product-form form{display:grid;gap:14px}
+.admin-product-form label,.admin-login__card label{display:grid;gap:6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.admin-product-form input:not([type=checkbox]):not([type=file]),.admin-product-form textarea,.admin-product-form select,.admin-login__card input,.admin-orders select{width:100%;border:1px solid rgba(23,20,15,.2);border-radius:10px;background:#fff;padding:11px 12px;color:#17140f;font:14px system-ui}
+.admin-product-form input[type=file]{font:13px system-ui;max-width:100%}
+.admin-product-form textarea{resize:vertical}.admin-fields-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.admin-checkbox{display:flex!important;align-items:center;gap:9px!important;text-transform:none!important;letter-spacing:0!important;font-size:13px!important}.admin-checkbox input{accent-color:#b8862b}
+.admin-collection-picker{display:grid;gap:10px;margin:0;padding:14px;border:1px solid rgba(184,134,43,.25);border-radius:12px;background:#fdfbf6}
+.admin-collection-picker legend{padding:0 6px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase}
+.admin-collection-picker .admin-muted{margin:0 0 2px}
+.admin-image-list{display:flex;flex-wrap:wrap;gap:10px}.admin-image-list>div{width:66px;height:66px;position:relative}.admin-image-list img{width:100%;height:100%;object-fit:cover;border-radius:9px}.admin-image-list button{position:absolute;right:-6px;top:-6px;border:0;border-radius:50%;width:22px;height:22px;background:#17140f;color:#fff;cursor:pointer;font-size:17px;line-height:1}
+.admin-text-button{border:0;background:none;padding:6px;color:#574316;text-decoration:underline;font:600 12px system-ui;cursor:pointer}.admin-text-button--danger{color:#a22b20}
+.admin-product-list{display:grid}.admin-product-row{display:flex;align-items:center;gap:13px;padding:14px 0;border-top:1px solid rgba(184,134,43,.18);min-width:0}
+.admin-product-row__image{width:54px;height:64px;flex:none;background:#f3ead9;border-radius:8px;overflow:hidden}.admin-product-row__image img{width:100%;height:100%;object-fit:cover}
+.admin-product-row__info{display:grid;gap:4px;min-width:0;flex:1}.admin-product-row__info b{font:600 18px 'Cormorant Garamond',Georgia,serif}.admin-product-row__info span,.admin-product-row__info small{font-size:11px;color:#756c5b}
+.admin-row-actions{display:flex;gap:4px}.admin-empty{padding:24px 4px;color:#756c5b;font-size:14px}
+.admin-orders{max-width:1400px;margin:auto}.admin-table-scroll{overflow-x:auto}.admin-orders table{width:100%;border-collapse:collapse;min-width:760px}.admin-orders th,.admin-orders td{text-align:left;vertical-align:top;border-top:1px solid rgba(184,134,43,.2);padding:13px 10px;font-size:12px}.admin-orders th{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:#756c5b}.admin-orders td small{display:block;margin-top:4px;color:#756c5b}.admin-orders select{min-width:130px}
+.admin-stock-alert,.admin-best-sellers{display:grid;gap:8px;padding:14px 16px;margin:0 0 18px;border-radius:12px;background:#fbf3df;font-size:12px}.admin-stock-alert span,.admin-best-sellers span{color:#756c5b}.admin-best-sellers{margin:18px 0 0;background:#f8f5ed}.admin-best-sellers small{margin-left:8px}.admin-order-actions{display:flex;flex-wrap:wrap;gap:6px}.admin-order-actions .admin-button{padding:9px 13px;font-size:10px}
+.admin-alert{max-width:1400px;margin:0 auto 16px;padding:12px 15px;border-radius:10px;font-size:13px}.admin-alert--error{background:#fdecea;color:#8a1c12}.admin-alert--success{background:#e9f5e8;color:#1b5e20}
+.admin-login{display:grid;place-items:center}.admin-login__card{width:min(100%,420px);display:grid;gap:16px}.admin-login__card p{margin:0;font-size:14px;line-height:1.6}.admin-login__card .admin-eyebrow{margin-bottom:-12px}
+@media(max-width:900px){.admin-products{grid-template-columns:1fr}.admin-header{align-items:flex-start}.admin-overview{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:520px){.admin-header{flex-direction:column}.admin-header__actions{width:100%;justify-content:space-between}.admin-fields-row{grid-template-columns:1fr}.admin-product-row{flex-wrap:wrap}.admin-row-actions{margin-left:auto}.admin-sales-chart{grid-template-columns:1fr}.admin-fulfillment-summary{border-left:0;border-top:1px solid rgba(184,134,43,.2);padding:14px 0 0}}
