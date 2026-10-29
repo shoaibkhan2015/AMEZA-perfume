@@ -4,9 +4,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { fileURLToPath } from 'node:url';
 
-const dir = path.join(path.dirname(fileURLToPath(import.meta.url)), '..', '..', 'data');
+// Next.js bundles this file, so resolve data/ from the project root rather than from import.meta.url
+const dir = path.join(process.cwd(), 'data');
 const seedFile = path.join(dir, 'seed.json');
 const dbFile = path.join(dir, 'local-db.json');
 

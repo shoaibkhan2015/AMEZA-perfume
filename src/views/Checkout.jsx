@@ -1,5 +1,7 @@
+'use client';
 import { useEffect, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { api } from '../lib/api.js';
 import { useAuth } from '../lib/auth.jsx';
 import { useCart } from '../lib/cart.jsx';
@@ -9,7 +11,7 @@ import { useTitle } from '../lib/hooks.js';
 // New page (Shopify hosted checkout before). Cash on delivery. Prices are re-calculated on the server.
 export default function Checkout() {
   useTitle('Checkout');
-  const c = useCart(), { user, token } = useAuth(), nav = useNavigate();
+  const c = useCart(), { user, token } = useAuth(), router = useRouter();
   const [cfg, setCfg] = useState({ freeShippingOver: 5000, shippingFee: 250 });
   const [code, setCode] = useState(''), [applied, setApplied] = useState(null), [codeErr, setCodeErr] = useState('');
   const [busy, setBusy] = useState(false), [err, setErr] = useState('');
@@ -35,16 +37,16 @@ export default function Checkout() {
         address: { firstName: f.firstName, lastName: f.lastName, address1: f.address1, city: f.city, zip: f.zip, country: 'Pakistan' },
         lines: c.lines.map(l => ({ variantId: l.variantId, quantity: l.quantity })),
       } });
-      c.clear(); nav(`/order/${order.id}`, { replace: true });
+      c.clear(); router.replace(`/order/${order.id}`);
     } catch (er) { setErr(er.message); setBusy(false); }
   };
 
   if (!c.count) return (
-    <section className="am-sec"><div className="am-wrap"><div className="cp__empty"><p>Your cart is empty.</p><Link className="am-btn" to="/collections/all">Start shopping</Link></div></div></section>
+    <section className="am-sec"><div className="am-wrap"><div className="cp__empty"><p>Your cart is empty.</p><Link className="am-btn" href="/collections/all">Start shopping</Link></div></div></section>
   );
   return (
     <section className="am-sec"><div className="am-wrap">
-      <div className="am-head" data-reveal><div><p className="am-eb">Secure checkout</p><h1 className="am-h">Checkout</h1></div><Link className="am-link" to="/cart">Back to cart</Link></div>
+      <div className="am-head" data-reveal><div><p className="am-eb">Secure checkout</p><h1 className="am-h">Checkout</h1></div><Link className="am-link" href="/cart">Back to cart</Link></div>
       <div className="cp">
         <form className="co__form" id="co" onSubmit={submit}>
           {err && <p className="am-err">{err}</p>}

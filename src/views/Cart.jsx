@@ -1,5 +1,7 @@
+'use client';
 import { useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { ProductRail } from '../components/sections.jsx';
 import { useCart } from '../lib/cart.jsx';
 import { bottleUrl, money } from '../lib/format.js';
@@ -9,7 +11,7 @@ import { useTitle } from '../lib/hooks.js';
 export default function Cart() {
   useTitle('Your Shopping Cart');
   const c = useCart();
-  const nav = useNavigate();
+  const router = useRouter();
   useEffect(() => { c.refresh(); /* check latest prices/stock when the page opens */ }, []); // eslint-disable-line
 
   const th = c.freeOver;
@@ -19,7 +21,7 @@ export default function Cart() {
       <section className="am-sec"><div className="am-wrap">
         <div className="am-head" data-reveal>
           <div><p className="am-eb">Your bag</p><h1 className="am-h">Shopping cart</h1></div>
-          <Link className="am-link" to="/collections/all">Continue shopping</Link>
+          <Link className="am-link" href="/collections/all">Continue shopping</Link>
         </div>
         {c.count > 0 ? (
           <>
@@ -27,15 +29,15 @@ export default function Cart() {
               <p style={{ margin: 0 }}>{c.total >= th ? <>🎉 You've unlocked <b>FREE delivery</b>!</> : <>Add <b>{money(th - c.total)}</b> more for <b>FREE delivery</b> 🚚</>}</p>
               <div className="am-bar"><u style={{ width: pct + '%' }} /></div>
             </div>
-            <form className="cp" onSubmit={e => { e.preventDefault(); nav('/checkout'); }}>
+            <form className="cp" onSubmit={e => { e.preventDefault(); router.push('/checkout'); }}>
               <div className="cp__items">
                 {c.lines.map(l => (
                   <div className="cp__row" key={l.variantId}>
-                    <Link className="cp__img" to={`/products/${l.handle}`}>
+                    <Link className="cp__img" href={`/products/${l.handle}`}>
                       {l.image ? <img src={l.image} alt={l.title} loading="lazy" /> : <i style={{ '--bot': `url('${bottleUrl(l.handle)}')` }} />}
                     </Link>
                     <div>
-                      <Link className="cp__t" to={`/products/${l.handle}`}>{l.title}</Link>
+                      <Link className="cp__t" href={`/products/${l.handle}`}>{l.title}</Link>
                       {!l.hasOnlyDefaultVariant && <p className="cp__v">{l.variantTitle}</p>}
                       <p className="cp__p">{money(l.price)}{l.compareAtPrice > l.price && <s>{money(l.compareAtPrice)}</s>}</p>
                     </div>
@@ -61,7 +63,7 @@ export default function Cart() {
             </form>
           </>
         ) : (
-          <div className="cp__empty"><p>Your cart is empty.</p><Link className="am-btn" to="/collections/all">Start shopping</Link></div>
+          <div className="cp__empty"><p>Your cart is empty.</p><Link className="am-btn" href="/collections/all">Start shopping</Link></div>
         )}
       </div></section>
       <ProductRail eyebrow="Discover more" heading="You may also like" />

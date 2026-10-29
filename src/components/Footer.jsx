@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { api } from '../lib/api.js';
 import { footer, footerMenu, mainMenu, site } from '../data/siteContent.js';
 
@@ -34,14 +34,14 @@ export function NewsletterForm({ id, button, tag }) {
   );
 }
 
-const Ext = ({ item }) => (item.url.startsWith('/') ? <Link to={item.url}>{item.title}</Link> : <a href={item.url}>{item.title}</a>);
+const Ext = ({ item }) => (item.url.startsWith('/') ? <Link href={item.url}>{item.title}</Link> : <a href={item.url}>{item.title}</a>);
 
 export default function Footer() {
   return (
     <footer className="am-ft">
       <div className="am-ft__in">
         <div className="am-ft__brand">
-          <Link to="/" style={{ display: 'flex', gap: 12, alignItems: 'center', padding: 0, opacity: 1 }}>
+          <Link href="/" style={{ display: 'flex', gap: 12, alignItems: 'center', padding: 0, opacity: 1 }}>
             <span className="am-emb"><img src="/assets/ameza-emblem.png" alt="" /></span>
             <span className="am-wm"><b>{site.brand}</b><small>{site.tagline}</small></span>
           </Link>

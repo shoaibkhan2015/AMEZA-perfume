@@ -1,4 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+'use client';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import NotFound from './NotFound.jsx';
 import { useApi, useTitle } from '../lib/hooks.js';
 import { fmtDate } from '../lib/format.js';
@@ -19,7 +21,7 @@ export function Blog() {
       <div className="am-head" data-reveal><div><p className="am-eb">Journal</p><h1 className="am-h">{b.title}</h1></div></div>
       <div className="am-grid" style={{ gridTemplateColumns: 'repeat(auto-fill,minmax(280px,1fr))' }}>
         {b.articles.map(a => (
-          <Link key={a.handle} className="bl" to={`/blogs/${b.handle}/${a.handle}`} data-reveal>
+          <Link key={a.handle} className="bl" href={`/blogs/${b.handle}/${a.handle}`} data-reveal>
             {a.image && <img src={a.image} alt={a.title} loading="lazy" />}
             <div><small>{fmtDate(a.publishedAt)}</small><h3>{a.title}</h3><p>{cut(strip(a.excerpt || a.contentHtml), 120)}</p></div>
           </Link>
@@ -43,7 +45,7 @@ export function Article() {
       <h1 className="am-h">{a.title}</h1>
       {a.image && <img src={a.image} alt={a.title} />}
       <div className="art__c" dangerouslySetInnerHTML={{ __html: a.contentHtml }} />
-      <p style={{ marginTop: 30 }}><Link className="am-link" to={`/blogs/${b.handle}`}>← Back to {b.title}</Link></p>
+      <p style={{ marginTop: 30 }}><Link className="am-link" href={`/blogs/${b.handle}`}>← Back to {b.title}</Link></p>
     </div></article>
   );
 }

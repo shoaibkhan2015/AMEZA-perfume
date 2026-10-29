@@ -1,4 +1,5 @@
-import { useParams } from 'react-router-dom';
+'use client';
+import { useParams } from 'next/navigation';
 import { PdpMain, PdpReviews, PdpStory } from '../components/Pdp.jsx';
 import { ProductRail, Video } from '../components/sections.jsx';
 import NotFound from './NotFound.jsx';

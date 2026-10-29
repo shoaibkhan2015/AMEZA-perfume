@@ -1,6 +1,6 @@
-// Turns a Shopify "products_export.csv" into backend/data/seed.json products.
+// Turns a Shopify "products_export.csv" into data/seed.json products.
 //   node scripts/import-shopify-csv.js path/to/products_export.csv
-// Then run `npm run seed` to push them to Supabase (or just start the API in local mode).
+// Then run `npm run seed` to push them to Supabase (or just start the site in local mode).
 // Collections: a product joins the "men" / "women" / "gift-sets" collection when it has that tag
 // (Shopify's product export has no collection column). Everything is in "all" automatically.
 import fs from 'node:fs';
@@ -37,4 +37,4 @@ for (const c of seed.collections) if (COLS.includes(c.handle)) c.products = list
 
 seed.products = list;
 fs.writeFileSync(seedPath, JSON.stringify(seed, null, 1));
-console.log(`Imported ${list.length} products into data/seed.json. Next: npm run seed (Supabase) or restart the API.`);
+console.log(`Imported ${list.length} products into data/seed.json. Next: npm run seed (Supabase) or restart the site.`);

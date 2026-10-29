@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useCart } from '../lib/cart.jsx';
 import { bottleUrl, discountPct, money } from '../lib/format.js';
 
@@ -11,7 +11,7 @@ export default function ProductCard({ product, index = 0, bg = '#1c2a55' }) {
   const submit = e => { e.preventDefault(); if (product.available) add(product, v, 1); };
   return (
     <article className="am-card" data-reveal style={{ '--i': index, '--bg': bg }}>
-      <Link className="am-card__img" to={`/products/${product.handle}`}>
+      <Link className="am-card__img" href={`/products/${product.handle}`}>
         {onSale && <span className="am-badge">-{discountPct(product.compareAtPrice, product.price)}%</span>}
         {product.featuredImage
           ? <img src={product.featuredImage} alt={product.title} loading="lazy" />
@@ -19,7 +19,7 @@ export default function ProductCard({ product, index = 0, bg = '#1c2a55' }) {
       </Link>
       <div className="am-card__body">
         <span className="am-stars">★★★★★ 4.9</span>
-        <h3 className="am-card__t"><Link to={`/products/${product.handle}`}>{product.title}</Link></h3>
+        <h3 className="am-card__t"><Link href={`/products/${product.handle}`}>{product.title}</Link></h3>
         <div className="am-price">{money(product.price)}{onSale && <s className="am-was">{money(product.compareAtPrice)}</s>}</div>
         {product.available && inv > 0 && inv < 10 && <p className="am-low">🔥 Only {inv} left in stock</p>}
         <form onSubmit={submit}>

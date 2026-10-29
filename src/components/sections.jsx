@@ -1,5 +1,5 @@
 import { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import Countdown from './Countdown.jsx';
 import ProductCard from './ProductCard.jsx';
 import { NewsletterForm } from './Footer.jsx';
@@ -8,7 +8,7 @@ import { useApi } from '../lib/hooks.js';
 import * as C from '../data/siteContent.js';
 
 // Link that works for both internal routes and external URLs
-export const A = ({ href, ...p }) => (href?.startsWith('/') ? <Link to={href} {...p} /> : <a href={href} {...p} />);
+export const A = ({ href, ...p }) => (href?.startsWith('/') ? <Link href={href} {...p} /> : <a href={href} {...p} />);
 
 // ---- sections/am-trust.liquid
 export function Trust() {
@@ -39,7 +39,7 @@ export function Tiles() {
           const tileHandle = String(b.link || '').split('/').filter(Boolean).pop() || 'all';
           const demoStyle = { '--bot': `url('${collectionBottle(tileHandle)}')` };
           return (
-            <Link key={i} className="am-tile" to={b.link} data-reveal style={{ '--i': i, '--tb': b.color }}>
+            <Link key={i} className="am-tile" href={b.link} data-reveal style={{ '--i': i, '--tb': b.color }}>
               <div className="am-demo" style={demoStyle} />
               <div className="am-tile__meta">
                 <span className="am-tile__eyebrow">Collection</span>
@@ -61,7 +61,7 @@ export function ProductRail({ eyebrow, heading, collection = 'all', layout = 'st
     <section className="am-sec"><div className="am-wrap">
       <div className="am-head" data-reveal>
         <div><p className="am-eb">{eyebrow}</p><h2 className="am-h">{heading}</h2></div>
-        <Link className="am-link" to={`/collections/${collection}`}>View all</Link>
+        <Link className="am-link" href={`/collections/${collection}`}>View all</Link>
       </div>
       <div className={'am-rail' + (layout === 'tall' ? ' am-rail--tall' : '')}>
         {(data?.products || []).map((p, i) => <ProductCard key={p.id} product={p} index={i} bg={bg} />)}
@@ -177,7 +177,7 @@ export function AboutHero() {
         <h1 className="am-h" style={{ fontSize: 'clamp(40px,7vw,76px)' }}>{a.heading}</h1>
         <div style={{ marginTop: 18 }}><p>{a.text.split('\n').map((l, i) => <Fragment key={i}>{i > 0 && <br />}{l}</Fragment>)}</p></div>
         <div className="st-stats">{a.stats.map(([b, s]) => <div key={s}><b>{b}</b><small>{s}</small></div>)}</div>
-        <Link className="am-btn" style={{ marginTop: 26 }} to="/collections/all">{a.cta}</Link>
+        <Link className="am-btn" style={{ marginTop: 26 }} href="/collections/all">{a.cta}</Link>
       </div>
       <div className="st-vis" data-reveal style={{ '--i': 2 }}><div className="st-bot" style={{ '--bot': "url('/assets/drift-bottle.webp')" }} /></div>
     </div></div></section>

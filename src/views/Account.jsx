@@ -1,5 +1,7 @@
+'use client';
 import { useEffect, useState } from 'react';
-import { Link, Navigate, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { redirect, useRouter } from 'next/navigation';
 import { api } from '../lib/api.js';
 import { useAuth } from '../lib/auth.jsx';
 import { fmtDate, money } from '../lib/format.js';
@@ -10,7 +12,7 @@ const Wrap = ({ title, children, wide }) => (
 );
 const NoAuth = ({ title }) => (
   <Wrap title={title}><p>Customer accounts will be available once Supabase is connected (see README → "Customer accounts").</p>
-    <Link className="am-btn" to="/collections/all">Continue shopping</Link></Wrap>
+    <Link className="am-btn" href="/collections/all">Continue shopping</Link></Wrap>
 );
 const Err = ({ e }) => (e ? <p className="am-err">{e}</p> : null);
 const label = s => ({ pending: 'Pending', paid: 'Paid', refunded: 'Refunded', unfulfilled: 'Unfulfilled', shipped: 'Shipped', delivered: 'Delivered', cancelled: 'Cancelled' }[s] || s);
@@ -18,13 +20,13 @@ const label = s => ({ pending: 'Pending', paid: 'Paid', refunded: 'Refunded', un
 // templates/customers/login.liquid
 export function Login() {
   useTitle('Account');
-  const a = useAuth(), nav = useNavigate();
+  const a = useAuth(), router = useRouter();
   const [err, setErr] = useState(''), [rec, setRec] = useState(false), [sent, setSent] = useState(false);
   if (!a.enabled) return <NoAuth title="Login" />;
-  if (a.user) return <Navigate to="/account/orders" replace />;
+  if (a.user) redirect('/account/orders');
   const login = async e => {
     e.preventDefault(); setErr(''); const f = new FormData(e.currentTarget);
-    try { await a.signIn(f.get('email'), f.get('password')); nav('/account/orders'); } catch (x) { setErr(x.message); }
+    try { await a.signIn(f.get('email'), f.get('password')); router.push('/account/orders'); } catch (x) { setErr(x.message); }
   };
   const reset = async e => {
     e.preventDefault(); setErr('');
@@ -39,7 +41,7 @@ export function Login() {
         <a href="#recover" onClick={e => { e.preventDefault(); setRec(r => !r); }}>Forgot your password?</a>
         <button className="am-btn" type="submit">Sign in</button>
       </form>
-      <p style={{ marginTop: 18 }}>New here? <Link to="/account/register"><b>Create account</b></Link></p>
+      <p style={{ marginTop: 18 }}>New here? <Link href="/account/register"><b>Create account</b></Link></p>
       <div id="recover" hidden={!rec}>
         <form onSubmit={reset}>
           {sent && <p>We've sent you an email with a link to reset your password.</p>}
@@ -54,20 +56,20 @@ export function Login() {
 // templates/customers/register.liquid
 export function Register() {
   useTitle('Create Account');
-  const a = useAuth(), nav = useNavigate();
+  const a = useAuth(), router = useRouter();
   const [err, setErr] = useState(''), [done, setDone] = useState(false);
   if (!a.enabled) return <NoAuth title="Create account" />;
-  if (a.user) return <Navigate to="/account/orders" replace />;
+  if (a.user) redirect('/account/orders');
   const submit = async e => {
     e.preventDefault(); setErr(''); const f = Object.fromEntries(new FormData(e.currentTarget));
     try {
       const d = await a.signUp({ email: f.email, password: f.password, firstName: f.firstName, lastName: f.lastName });
-      d.session ? nav('/account/orders') : setDone(true);   // no session = Supabase wants the email confirmed first
+      d.session ? router.push('/account/orders') : setDone(true);   // no session = Supabase wants the email confirmed first
     } catch (x) { setErr(x.message); }
   };
   return (
     <Wrap title="Create account">
-      {done ? <p>Almost done — we've emailed you a link to confirm your address. Click it, then <Link to="/account/login"><b>log in</b></Link>.</p> : (
+      {done ? <p>Almost done — we've emailed you a link to confirm your address. Click it, then <Link href="/account/login"><b>log in</b></Link>.</p> : (
         <form onSubmit={submit}>
           <Err e={err} />
           <label>First name<input name="firstName" autoComplete="given-name" /></label>
@@ -77,7 +79,7 @@ export function Register() {
           <button className="am-btn" type="submit">Create</button>
         </form>
       )}
-      <p style={{ marginTop: 18 }}>Already registered? <Link to="/account/login"><b>Login</b></Link></p>
+      <p style={{ marginTop: 18 }}>Already registered? <Link href="/account/login"><b>Login</b></Link></p>
     </Wrap>
   );
 }
@@ -85,13 +87,13 @@ export function Register() {
 // templates/customers/reset_password.liquid
 export function ResetPassword() {
   useTitle('Reset Password');
-  const a = useAuth(), nav = useNavigate();
+  const a = useAuth(), router = useRouter();
   const [err, setErr] = useState('');
   if (!a.enabled) return <NoAuth title="Reset password" />;
   const submit = async e => {
     e.preventDefault(); setErr(''); const f = new FormData(e.currentTarget);
     if (f.get('password') !== f.get('confirm')) return setErr('Passwords do not match.');
-    try { await a.setPassword(f.get('password')); nav('/account/orders'); } catch (x) { setErr(x.message); }
+    try { await a.setPassword(f.get('password')); router.push('/account/orders'); } catch (x) { setErr(x.message); }
   };
   return (
     <Wrap title="Reset password">
@@ -113,19 +115,19 @@ export function Account() {
   useEffect(() => { if (a.token) api('/account/orders', { token: a.token }).then(d => setOrders(d.orders)).catch(() => setOrders([])); }, [a.token]);
   if (!a.enabled) return <NoAuth title="My account" />;
   if (!a.ready) return <section className="am-sec" style={{ minHeight: '60vh' }} />;
-  if (!a.user) return <Navigate to="/account/login" replace />;
+  if (!a.user) redirect('/account/login');
   const name = a.user.user_metadata?.first_name || a.user.email;
   return (
     <Wrap title="My account" wide>
-      <p>Hello {name} · <button className="am-link-btn" onClick={a.signOut}><b>Log out</b></button> · <Link to="/account/addresses"><b>Addresses</b></Link></p>
+      <p>Hello {name} · <button className="am-link-btn" onClick={a.signOut}><b>Log out</b></button> · <Link href="/account/addresses"><b>Addresses</b></Link></p>
       {orders?.length ? (
         <table>
           <thead><tr><th>Order</th><th>Date</th><th>Payment</th><th>Fulfillment</th><th>Total</th></tr></thead>
           <tbody>{orders.map(o => (
-            <tr key={o.id}><td><Link to={`/account/orders/${o.id}`}><b>#{o.orderNumber}</b></Link></td><td>{fmtDate(o.createdAt)}</td><td>{label(o.paymentStatus)}</td><td>{label(o.fulfillmentStatus)}</td><td>{money(o.total)}</td></tr>
+            <tr key={o.id}><td><Link href={`/account/orders/${o.id}`}><b>#{o.orderNumber}</b></Link></td><td>{fmtDate(o.createdAt)}</td><td>{label(o.paymentStatus)}</td><td>{label(o.fulfillmentStatus)}</td><td>{money(o.total)}</td></tr>
           ))}</tbody>
         </table>
-      ) : orders && <><p>You haven't placed any orders yet.</p><Link className="am-btn" to="/collections/all">Start shopping</Link></>}
+      ) : orders && <><p>You haven't placed any orders yet.</p><Link className="am-btn" href="/collections/all">Start shopping</Link></>}
     </Wrap>
   );
 }
@@ -139,7 +141,7 @@ export function Addresses() {
   useEffect(() => { if (a.token) load(); }, [a.token]); // eslint-disable-line
   if (!a.enabled) return <NoAuth title="Addresses" />;
   if (!a.ready) return <section className="am-sec" style={{ minHeight: '60vh' }} />;
-  if (!a.user) return <Navigate to="/account/login" replace />;
+  if (!a.user) redirect('/account/login');
   const add = async e => {
     e.preventDefault(); setErr(''); const f = Object.fromEntries(new FormData(e.currentTarget));
     try { await api('/account/addresses', { method: 'POST', token: a.token, body: { first_name: f.first_name, last_name: f.last_name, address1: f.address1, city: f.city, country: f.country, zip: f.zip, phone: f.phone } }); e.target.reset(); load(); }
@@ -148,7 +150,7 @@ export function Addresses() {
   const del = async id => { await api(`/account/addresses/${id}`, { method: 'DELETE', token: a.token }); load(); };
   return (
     <Wrap title="Addresses" wide>
-      <p><Link to="/account">← Back to account</Link></p>
+      <p><Link href="/account">← Back to account</Link></p>
       {(list || []).map(x => (
         <div key={x.id} style={{ background: '#fff', border: '1px solid rgba(184,134,43,.25)', borderRadius: 16, padding: 16, marginBottom: 12 }}>
           {x.first_name} {x.last_name}<br />{x.address1}<br />{x.city} {x.zip}<br />{x.country}{x.phone && <><br />{x.phone}</>}

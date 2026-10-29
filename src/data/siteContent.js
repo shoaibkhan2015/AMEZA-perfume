@@ -2,7 +2,7 @@
 // (templates/*.json + the defaults in each section's {% schema %}).
 // Edit here to change copy on the site.
 
-export const FREE_DELIVERY_OVER = 5000; // Rs — the server uses FREE_SHIPPING_OVER in backend/.env
+export const FREE_DELIVERY_OVER = 5000; // Rs — the server uses FREE_SHIPPING_OVER from .env
 
 function normalizeWhatsappNumber(value) {
   const raw = String(value || '').trim();
@@ -14,7 +14,7 @@ function normalizeWhatsappNumber(value) {
   return digits;
 }
 
-export const whatsappNumber = normalizeWhatsappNumber(import.meta.env.VITE_WHATSAPP_NUMBER);
+export const whatsappNumber = normalizeWhatsappNumber(process.env.NEXT_PUBLIC_WHATSAPP_NUMBER);
 
 export const site = {
   brand: 'AMÉZA',

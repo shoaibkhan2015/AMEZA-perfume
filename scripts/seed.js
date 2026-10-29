@@ -1,9 +1,9 @@
-// Loads backend/data/seed.json into Supabase. Safe to run again (updates by handle).
+// Loads data/seed.json into Supabase. Safe to run again (updates by handle).
 import fs from 'node:fs';
 import { createClient } from '@supabase/supabase-js';
 
 const { SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY } = process.env;
-if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) { console.error('Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in backend/.env first.'); process.exit(1); }
+if (!SUPABASE_URL || !SUPABASE_SERVICE_ROLE_KEY) { console.error('Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY in .env first.'); process.exit(1); }
 const sb = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, { auth: { persistSession: false } });
 const seed = JSON.parse(fs.readFileSync(new URL('../data/seed.json', import.meta.url), 'utf8'));
 const ok = ({ data, error }) => { if (error) { console.error(error.message); process.exit(1); } return data; };

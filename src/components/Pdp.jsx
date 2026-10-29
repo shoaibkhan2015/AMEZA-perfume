@@ -1,5 +1,6 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import Countdown from './Countdown.jsx';
 import { useCart } from '../lib/cart.jsx';
 import { bottleUrl, discountPct, money } from '../lib/format.js';
@@ -22,7 +23,7 @@ const eta = n => { const d = new Date(); d.setDate(d.getDate() + n); return d.to
 // Port of sections/am-pdp-main.liquid
 export function PdpMain({ product }) {
   const { add } = useCart();
-  const nav = useNavigate();
+  const router = useRouter();
   const profile = C.profileFor(product.handle);
   const [lon, prj, fre] = profile ? profile.perf : [C.pdp.longevity, C.pdp.projection, C.pdp.freshness];
   const rows = profile ? profile.notes : null;
@@ -47,13 +48,13 @@ export function PdpMain({ product }) {
   }, [product.id]);
 
   const submit = e => { e?.preventDefault(); if (v.available) add(product, v, qty); };
-  const buyNow = () => { if (v.available) { add(product, v, qty, { silent: true }); nav('/checkout'); } };
+  const buyNow = () => { if (v.available) { add(product, v, qty, { silent: true }); router.push('/checkout'); } };
   const onSale = v.compareAtPrice > v.price;
 
   return (
     <>
       <section className="am-sec" style={{ paddingTop: 'clamp(24px,4vw,48px)' }}><div className="am-wrap">
-        <nav className="pdp-bc"><Link to="/">Home</Link> / <Link to="/collections/all">Shop</Link> / {product.title}</nav>
+        <nav className="pdp-bc"><Link href="/">Home</Link> / <Link href="/collections/all">Shop</Link> / {product.title}</nav>
         <div className="pdp">
           <div className="pdp-gal" data-reveal>
             <div className="pdp-main" onPointerMove={e => { const m = e.currentTarget, r = m.getBoundingClientRect(); m.style.setProperty('--zx', ((e.clientX - r.left) / r.width) * 100 + '%'); m.style.setProperty('--zy', ((e.clientY - r.top) / r.height) * 100 + '%'); }}>

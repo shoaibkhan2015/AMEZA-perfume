@@ -1,5 +1,6 @@
+'use client';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { api } from './api.js';
 import { FREE_DELIVERY_OVER } from '../data/siteContent.js';
 
@@ -7,16 +8,21 @@ const KEY = 'ameza-cart-v1';
 const Ctx = createContext(null);
 export const useCart = () => useContext(Ctx);
 
-const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || { lines: [], note: '' }; } catch { return { lines: [], note: '' }; } };
+const EMPTY = { lines: [], note: '' };
+const load = () => { try { return JSON.parse(localStorage.getItem(KEY)) || EMPTY; } catch { return EMPTY; } };
 
 export function CartProvider({ children }) {
-  const [state, setState] = useState(load);
+  // null until the saved cart is read after hydration, so server and browser render the same empty cart first
+  const [stored, setStored] = useState(null);
+  const state = stored || EMPTY;
+  const setState = useCallback(next => setStored(s => (typeof next === 'function' ? next(s || load()) : next)), []);
   const [freeOver, setFreeOver] = useState(FREE_DELIVERY_OVER);
   const [toast, setToast] = useState({ on: false, key: 0 });
   const [bar, setBar] = useState(0);
   const timer = useRef();
 
-  useEffect(() => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch { /* private mode */ } }, [state]);
+  useEffect(() => { setStored(s => s || load()); }, []);
+  useEffect(() => { if (stored) try { localStorage.setItem(KEY, JSON.stringify(stored)); } catch { /* private mode */ } }, [stored]);
   useEffect(() => { api('/config').then(c => setFreeOver(c.freeShippingOver)).catch(() => {}); }, []);
 
   const lines = state.lines;
@@ -69,7 +75,7 @@ export function CartProvider({ children }) {
       {children}
       {/* the "Added to cart" popup (was created by assets/ameza-store.js) */}
       <div className={'am-ct' + (toast.on ? ' on' : '')}>
-        <b>✓ Added to cart</b> · <Link to="/cart">View cart</Link>
+        <b>✓ Added to cart</b> · <Link href="/cart">View cart</Link>
         <div style={{ marginTop: 6 }}>
           {rem ? <>Add <b>Rs {Math.round(rem).toLocaleString()}</b> more for <b>FREE delivery</b> 🚚</> : <>🎉 You unlocked <b>FREE delivery</b>!</>}
         </div>

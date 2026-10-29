@@ -1,4 +1,6 @@
-import { Link, useParams } from 'react-router-dom';
+'use client';
+import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import NotFound from './NotFound.jsx';
 import { useApi, useTitle } from '../lib/hooks.js';
 import { fmtDate, money } from '../lib/format.js';
@@ -36,7 +38,7 @@ export default function Order({ thanks }) {
       <table>
         <thead><tr><th>Product</th><th>Qty</th><th>Total</th></tr></thead>
         <tbody>
-          {o.items.map((i, k) => <tr key={k}><td><Link to={`/products/${i.handle}`}>{i.title}{i.variantTitle && i.variantTitle !== 'Default Title' ? ` — ${i.variantTitle}` : ''}</Link></td><td>{i.quantity}</td><td>{money(i.price * i.quantity)}</td></tr>)}
+          {o.items.map((i, k) => <tr key={k}><td><Link href={`/products/${i.handle}`}>{i.title}{i.variantTitle && i.variantTitle !== 'Default Title' ? ` — ${i.variantTitle}` : ''}</Link></td><td>{i.quantity}</td><td>{money(i.price * i.quantity)}</td></tr>)}
           <tr><td colSpan="2">Subtotal</td><td>{money(o.subtotal)}</td></tr>
           {o.discount > 0 && <tr><td colSpan="2">Discount ({o.discountCode})</td><td>−{money(o.discount)}</td></tr>}
           <tr><td colSpan="2">Shipping</td><td>{o.shipping ? money(o.shipping) : 'Free'}</td></tr>
@@ -44,7 +46,7 @@ export default function Order({ thanks }) {
         </tbody>
       </table>
       <p style={{ marginTop: 20 }}><b>Shipping address</b><br />{a.firstName} {a.lastName}<br />{a.address1}<br />{a.city}{a.zip && ` ${a.zip}`}<br />{a.country}<br />{o.phone}</p>
-      <p>{thanks ? <Link className="am-btn" to="/collections/all">Continue shopping</Link> : <Link to="/account">← Back to account</Link>}</p>
+      <p>{thanks ? <Link className="am-btn" href="/collections/all">Continue shopping</Link> : <Link href="/account">← Back to account</Link>}</p>
     </div></section>
   );
 }

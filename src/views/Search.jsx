@@ -1,12 +1,14 @@
-import { useNavigate, useSearchParams, Link } from 'react-router-dom';
+'use client';
+import Link from 'next/link';
+import { useRouter, useSearchParams } from 'next/navigation';
 import ProductCard from '../components/ProductCard.jsx';
 import { Pagination } from './Collection.jsx';
 import { useApi, useTitle } from '../lib/hooks.js';
 
 // templates/search.json  (sections/am-search.liquid)
 export default function Search() {
-  const [sp] = useSearchParams();
-  const nav = useNavigate();
+  const sp = useSearchParams();
+  const router = useRouter();
   const q = sp.get('q') || '', page = sp.get('page') || 1;
   const { data } = useApi(`/search?q=${encodeURIComponent(q)}&page=${page}`, [q, page]);
   useTitle(q ? `Search: ${q}` : 'Search');
@@ -15,7 +17,7 @@ export default function Search() {
     <section className="am-sec"><div className="am-wrap">
       <div className="am-head" data-reveal><div><p className="am-eb">Search</p>
         <h1 className="am-h">{performed ? `${data?.total ?? 0} results for “${q}”` : 'Search our store'}</h1></div></div>
-      <form className="srch" key={q} onSubmit={e => { e.preventDefault(); nav('/search?q=' + encodeURIComponent(new FormData(e.currentTarget).get('q'))); }}>
+      <form className="srch" key={q} onSubmit={e => { e.preventDefault(); router.push('/search?q=' + encodeURIComponent(new FormData(e.currentTarget).get('q'))); }}>
         <input type="search" name="q" defaultValue={q} placeholder="Search perfumes…" />
         <button className="am-btn">Search</button>
       </form>

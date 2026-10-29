@@ -1,5 +1,7 @@
+'use client';
 import { useState } from 'react';
-import { Link, useNavigate, useParams, useSearchParams } from 'react-router-dom';
+import Link from 'next/link';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import ProductCard from '../components/ProductCard.jsx';
 import { Newsletter } from '../components/sections.jsx';
 import NotFound from './NotFound.jsx';
@@ -11,11 +13,11 @@ export function Pagination({ page, pages, hrefFor }) {
   if (pages <= 1) return null;
   return (
     <div className="pagination">
-      {page > 1 && <span className="prev"><Link to={hrefFor(page - 1)}>« Previous</Link></span>}
+      {page > 1 && <span className="prev"><Link href={hrefFor(page - 1)}>« Previous</Link></span>}
       {Array.from({ length: pages }, (_, i) => i + 1).map(n => (n === page
         ? <span key={n} className="page current">{n}</span>
-        : <span key={n} className="page"><Link to={hrefFor(n)}>{n}</Link></span>))}
-      {page < pages && <span className="next"><Link to={hrefFor(page + 1)}>Next »</Link></span>}
+        : <span key={n} className="page"><Link href={hrefFor(n)}>{n}</Link></span>))}
+      {page < pages && <span className="next"><Link href={hrefFor(page + 1)}>Next »</Link></span>}
     </div>
   );
 }
@@ -23,8 +25,8 @@ export function Pagination({ page, pages, hrefFor }) {
 // templates/collection.json  (sections/am-collection.liquid)
 export default function Collection() {
   const { handle } = useParams();
-  const [sp] = useSearchParams();
-  const nav = useNavigate();
+  const sp = useSearchParams();
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const qs = sp.toString();
   const { data, error } = useApi(`/collections/${handle}?per_page=12&${qs}`, [handle, qs]);
@@ -46,7 +48,7 @@ export default function Collection() {
     n.set('sort_by', root.querySelector('select[name=sort_by]').value);
     root.querySelectorAll(`input[name="${AV}"]:checked`).forEach(i => n.append(AV, i.value));
     [GTE, LTE].forEach(k => { const v = root.querySelector(`input[name="${k}"]`).value; if (v !== '') n.set(k, v); });
-    const s = n.toString(); nav(base + (s ? '?' + s : ''));
+    const s = n.toString(); router.push(base + (s ? '?' + s : ''));
   };
   const chips = [
     ...avail.map(v => ({ label: v === '1' ? 'In stock' : 'Out of stock', href: withParams(n => { n.delete(AV); avail.filter(x => x !== v).forEach(x => n.append(AV, x)); }) })),
@@ -57,7 +59,7 @@ export default function Collection() {
   return (
     <>
       <section className="am-sec"><div className="am-wrap">
-        <nav className="pdp-bc"><Link to="/">Home</Link> / {c.title}</nav>
+        <nav className="pdp-bc"><Link href="/">Home</Link> / {c.title}</nav>
         <div className="plp-hero" data-reveal>
           {c.image && <img src={c.image} alt={c.title} />}
           <p className="am-eb">Collection</p><h1 className="am-h">{c.title}</h1>
@@ -86,16 +88,16 @@ export default function Collection() {
                   <label>To<input type="number" name={LTE} defaultValue={lte} min="0" max={filters.priceMax} placeholder={String(filters.priceMax)} /></label>
                 </div>
               </details>
-              <Link className="plp-clear" to={clear}>Clear all filters</Link>
+              <Link className="plp-clear" href={clear}>Clear all filters</Link>
             </aside>
             <div className="plp-main">
-              <div className="plp-chips">{chips.map(ch => <Link key={ch.label} className="plp-chip" to={ch.href}>{ch.label} ✕</Link>)}</div>
+              <div className="plp-chips">{chips.map(ch => <Link key={ch.label} className="plp-chip" href={ch.href}>{ch.label} ✕</Link>)}</div>
               {products.length > 0 ? (
                 <>
                   <div className="am-grid">{products.map((p, i) => <ProductCard key={p.id} product={p} index={i} />)}</div>
                   <Pagination page={page} pages={pages} hrefFor={hrefFor} />
                 </>
-              ) : <p className="plp-empty">No products match your filters. <Link to={base}>Clear filters</Link></p>}
+              ) : <p className="plp-empty">No products match your filters. <Link href={base}>Clear filters</Link></p>}
             </div>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 import { useApi } from '../lib/hooks.js';
 import { useCart } from '../lib/cart.jsx';
 import { bottleUrl, money } from '../lib/format.js';
@@ -86,7 +86,7 @@ export default function MoodPicker() {
             {product && <div className="mp-price">{money(product.price)}</div>}
             <div className="mp-cta">
               {product && variant && product.available && <button type="button" className="am-btn" onClick={() => add(product, variant, 1)}>Add to cart</button>}
-              <Link className="mp-ghost" to={`/products/${handle}`}>View perfume</Link>
+              <Link className="mp-ghost" href={`/products/${handle}`}>View perfume</Link>
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
-import { useParams } from 'react-router-dom';
+'use client';
+import { useParams } from 'next/navigation';
 import { AboutHero, Contact, Faq, Newsletter, Reviews, Values, Video } from '../components/sections.jsx';
 import NotFound from './NotFound.jsx';
 import { useApi, useTitle } from '../lib/hooks.js';

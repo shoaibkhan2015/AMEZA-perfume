@@ -1,3 +1,4 @@
+'use client';
 import PerfumeScroll from '../components/PerfumeScroll.jsx';
 import MoodPicker from '../components/MoodPicker.jsx';
 import { Faq, Newsletter, Offer, ProductRail, Reviews, Tiles, Trust, Video } from '../components/sections.jsx';

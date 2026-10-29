@@ -1,5 +1,6 @@
+'use client';
 import { useEffect } from 'react';
-import { Outlet, useLocation } from 'react-router-dom';
+import { usePathname } from 'next/navigation';
 import { Announcement } from './Header.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
@@ -13,8 +14,8 @@ const templateName = p => {
   return { products: 'product', collections: b ? 'collection' : 'list-collections', pages: 'page', blogs: 'blog', cart: 'cart', search: 'search', account: 'customers-account' }[a] || a;
 };
 
-export default function Layout() {
-  const { pathname } = useLocation();
+export default function Layout({ children }) {
+  const pathname = usePathname();
   useEffect(() => initEffects(), []);
   useEffect(() => { document.body.className = 'am-body template-' + templateName(pathname); }, [pathname]);
   // new page → start at the top (but let #anchor links work)
@@ -24,7 +25,7 @@ export default function Layout() {
       <a href="#MainContent" style={{ position: 'absolute', left: -9999 }}>Skip to content</a>
       <Announcement />
       <Header />
-      <main id="MainContent" role="main"><Outlet /></main>
+      <main id="MainContent" role="main">{children}</main>
       <Footer />
       <Extras />
     </>

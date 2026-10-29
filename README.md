@@ -1,53 +1,37 @@
-# AMEZA-perfume — Améza Parfums Vercel-ready
+# AMEZA-perfume — Améza Parfums
 
-React (Vite) frontend + Express API (Supabase), deployed together on Vercel.
-The API runs as a serverless function (`api/index.js` → `backend/src/server.js`), the site is served from `frontend/dist`.
+A single Next.js app (storefront + API, backed by Supabase) that deploys to Vercel with no extra configuration.
 
-## Deploy
-1. Push this folder to GitHub → Vercel → **Add New Project** (root directory = this folder, framework "Other").
-2. Configure the environment variables (Project → Settings → Environment Variables).
-   - Set frontend `VITE_SUPABASE_URL` and `VITE_SUPABASE_ANON_KEY` for the admin panel.
-   - Set backend `SUPABASE_URL` to the **same project URL** and `SUPABASE_SERVICE_ROLE_KEY` for the storefront API. The service-role key is secret: set it only in Vercel, never commit it.
-   - If both backend Supabase settings are unset, the API uses local seed data; admin-created products then will not appear in the storefront. If only one is set, startup fails with a configuration error.
-   - For admin new-order emails, configure `RESEND_API_KEY`, `ORDER_NOTIFICATION_EMAIL`, and `EMAIL_FROM`. Verify the sender domain in Resend before using it. If these are missing or the provider is unavailable, the order still completes and the backend logs the notification issue.
-3. Deploy. Admin panel: `/admin`. Health check: `/health`.
-
-## Store features
-`frontend/src/components/MoodPicker.jsx` + `frontend/src/styles/mood-picker.css`, shown on the home page under the category tiles.
-Each mood loads the matching real product (name, price, bottle image, Add to cart) and plays its own animation.
-To change which perfume belongs to a mood, edit `handle` in the `MOODS` list.
+## Project layout
+- `src/app/` — Next.js routes. `(store)/` holds the storefront pages (they share the header/footer layout), `admin/` the admin panel, `api/` the API route handlers, `health/` the health check.
+- `src/views/`, `src/components/`, `src/lib/`, `src/styles/` — the React UI.
+- `src/server/` — server-only code: `api.js` (all API handlers), `store/` (Supabase or local seed data), `lib/` (catalogue, order emails, helpers).
+- `data/seed.json` — sample catalogue, used when Supabase is not configured and by `npm run seed`.
+- `scripts/` — `seed.js` (push `data/seed.json` to Supabase) and `import-shopify-csv.js`.
+- `supabase/` — database schema and admin SQL.
 
 ## Run locally
-Use Node.js 22.12 or newer. Install dependencies from the project root:
+Use Node.js 20.9 or newer.
 ```sh
 npm ci
-npm ci --prefix backend
-npm ci --prefix frontend
+cp .env.example .env   # then fill in your values
+npm run dev            # http://localhost:3000
 ```
+The service-role key is only used by server code; the browser only receives `NEXT_PUBLIC_` variables. `.env` is excluded from Git.
 
-Keep local environment variables in separate files:
-- `frontend/.env`: `VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`, and optionally `VITE_WHATSAPP_NUMBER`.
-- `backend/.env`: `SUPABASE_URL` (the same project URL), `SUPABASE_SERVICE_ROLE_KEY`, and optional shipping/email settings.
-These local `.env` files are excluded from Git; do not commit the backend service-role key.
+If both `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` are unset, the API uses `data/seed.json` and saves test orders to `data/local-db.json`. If only one is set, the API reports a configuration error.
 
-Run the API and frontend in separate terminals:
-```sh
-npm run dev:api
-npm run dev:web
-```
-If both backend Supabase settings are unset, the API uses local seed data. If you set one, set both; the API now reports a configuration error instead of silently falling back to seed data.
+Other scripts: `npm run build` / `npm start` (production build), `npm run seed`, `npm run import:shopify -- path/to/products_export.csv`.
 
 ## Deploy to Vercel
-Import the project with the repository root as the Vercel Root Directory. Vercel uses the root `package.json` build script, which installs the frontend from its lockfile and creates `frontend/dist`; the API is served by `api/index.js`.
+1. Push to GitHub → Vercel → **Add New Project** → import the repo. Vercel detects Next.js; leave Root Directory empty and the build settings at their defaults.
+2. Add the variables from `.env.example` in **Project → Settings → Environment Variables**:
+   - `SUPABASE_URL` and `SUPABASE_SERVICE_ROLE_KEY` for the API. Without them the live site uses seed data and orders fail (Vercel's file system is read-only).
+   - `NEXT_PUBLIC_SUPABASE_URL` (the same project URL) and `NEXT_PUBLIC_SUPABASE_ANON_KEY` for customer accounts and the admin panel. These are baked in at build time, so redeploy after changing them. The older `VITE_` names also work.
+   - `RESEND_API_KEY`, `ORDER_NOTIFICATION_EMAIL` and `EMAIL_FROM` for new-order emails (verify the sender domain in Resend). If they are missing, orders still complete and the server logs the issue.
+3. Deploy. Admin panel: `/admin`. Health check: `/health` should return `{"ok":true,"store":"Supabase"}`.
 
-Add the environment variables from `.env.example` in **Project → Settings → Environment Variables**. `VITE_` variables are embedded at build time, so redeploy after changing them. Set `SUPABASE_URL` and `VITE_SUPABASE_URL` to the same project URL. Keep `SUPABASE_SERVICE_ROLE_KEY` server-side only.
-
-## Troubleshooting
-- **`[unused_function] The pattern "api/index.js" ... doesn't match any Serverless Functions`** → the `api` folder did not reach GitHub. On GitHub the repo root must contain: `api/index.js`, `backend/`, `frontend/`, `package.json`, `vercel.json`. If `api/index.js` is missing: GitHub → Add file → Create new file → name it `api/index.js` and paste:
-  ```js
-  import app from '../backend/src/server.js';
-  export default app;
-  ```
-- If the site opens but products are empty, `/health` returns 404 → same cause (missing `api/index.js`).
-- Vercel Root Directory must be the folder that directly contains `package.json` and `vercel.json`.
-- Easiest upload: GitHub Desktop / `git push`, or run `npx vercel --prod` inside this folder.
+## Store features
+`src/components/MoodPicker.jsx` + `src/styles/mood-picker.css`, shown on the home page under the category tiles.
+Each mood loads the matching real product (name, price, bottle image, Add to cart) and plays its own animation.
+To change which perfume belongs to a mood, edit `handle` in the `MOODS` list.
